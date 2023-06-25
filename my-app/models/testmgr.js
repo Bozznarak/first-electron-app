@@ -7,18 +7,31 @@ exports.setTable = () => {
                                                     name TEXT NOT NULL
                                                 )`);
     const info = stmt.run();
-    console.log(info)
 }
 
 exports.dummyData = () => {
     const stmt = db.prepare("INSERT INTO names (name) VALUES (?)");
     const info = stmt.run("otto");
-
-    console.log(info.changes);
 }
 
-exports.getAllNames = () => {
-    const stmt = db.prepare('SELECT * FROM names');
-    const names = stmt.all();
-    console.log(names)
+exports.getAllNames = async () => {
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare('SELECT * FROM names');
+        const names = stmt.all();
+        if(names.length < 1)
+        {
+            console.log("Fehler im getAllNames")
+            reject()
+        } 
+        resolve(names);
+    })
+}
+
+// CRUD 
+// CREATE, READ, UPDATE, DELETE
+
+exports.insertName = (name) => {
+    if(!name) return;
+    const stmt = db.prepare("INSERT INTO names (name) VALUES (?)");
+    const info = stmt.run(name);
 }
