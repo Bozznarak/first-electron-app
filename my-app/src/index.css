@@ -5,3 +5,11 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+.test-div
+{
+  width: 100px;
+  height: 100px;
+  display: none;
+  position: absolute;
+}
