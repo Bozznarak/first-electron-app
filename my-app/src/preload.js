@@ -22,5 +22,9 @@ contextBridge.exposeInMainWorld("api", {
   deleteName: (id) => testMgr.deleteName(id)
 });
 
-
-
+contextBridge.exposeInMainWorld("houseApi", {
+  createHouse: (designation) => testMgr.createHouse(designation),
+  deleteHouse: (id) => testMgr.deleteHouse(id),
+  updateHouse: (houseObj) => testMgr.updateHouse(houseObj),
+  allHouses: async () => await testMgr.allHouses().catch(e => {return {}})
+})

@@ -31,3 +31,14 @@ body {
 {
   cursor: pointer;
 }
+
+.house-table td
+{
+  text-align: center;
+  padding: 3px;
+}
+.house-table th
+{
+  padding: 0 10px;
+  background-color: lightgrey;
+}

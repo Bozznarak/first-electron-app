@@ -58,9 +58,32 @@ exports.deleteName = (id) => {
 // zum Haus...
 // Häuser haben eine Bezeichnung
 // Häuser haben eine Wohnung oder mehrere mit einem Besitzer
-
 exports.createHouse = (designation) => {
     if(!designation) return;
-    const stmt = db.prepare("INSERT INTO houses (name) VALUES (?)");
+    const stmt = db.prepare("INSERT INTO houses (designation) VALUES (?)");
     const info = stmt.run(designation);
+}
+
+exports.deleteHouse = (id) => {
+    if(!id) return;
+    const stmt = db.prepare("DELETE FROM houses WHERE id = ?");
+    const info = stmt.run(id);
+}
+
+exports.updateHouse = (houseObj) => {
+    if(!houseObj) return;
+    const {id, designation} = houseObj;
+    const stmt = db.prepare(`UPDATE houses 
+                                SET designation=?
+                                WHERE id=?`);
+    const info = stmt.run(designation, id)
+}
+
+exports.allHouses = () => {
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare("SELECT * FROM houses");
+        const houses = stmt.all();
+        if(houses.length < 1) reject()
+        resolve(houses);
+    })
 }
