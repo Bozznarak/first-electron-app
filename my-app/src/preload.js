@@ -27,4 +27,9 @@ contextBridge.exposeInMainWorld("houseApi", {
   deleteHouse: (id) => testMgr.deleteHouse(id),
   updateHouse: (houseObj) => testMgr.updateHouse(houseObj),
   allHouses: async () => await testMgr.allHouses().catch(e => {return {}})
+});
+
+contextBridge.exposeInMainWorld("apartmentApi", {
+  createApartment: (apartObj) => testMgr.createApartment(apartObj),
+  showApartmentsFromHouse: async (houseId) => await testMgr.showApartmentsFromHouse(houseId)
 })

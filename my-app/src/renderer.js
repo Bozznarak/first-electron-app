@@ -26,6 +26,12 @@ document.querySelector(".click-start-section").addEventListener("click", async (
     document.querySelector(".starting-section").style.display = "block";
 })
 
+document.querySelector(".click-apartment-section").addEventListener("click", async (e) => {
+    await hideAllElements();
+    await showHousesSelection();
+    document.querySelector(".create-apartment-section").style.display = "block";
+})
+
 // #################################################### HOUSE SECTION #################################################
 const createHouse = () => {
     const input = document.querySelector("#houseDesignation");
@@ -99,6 +105,72 @@ const loadAllHousesIntoDiv = async () => {
     
 }
 
+// #################################################### APARTMENT SECTION #############################################
+const showHousesSelection = () => {
+    return new Promise(async (resolve, reject) => {
+       const houses = await window.houseApi.allHouses();
+       if(houses && houses.length > 0){
+            const selector = document.querySelector("#house-selector");
+            selector.innerHTML = "";
+            houses.map(house => {
+                selector.insertAdjacentHTML("beforeend", `<option house-id="${house.id}">${house.designation}</option>`);
+            });  
+       } else {
+        reject();
+       }
+       showApartmentsFromSelectedHouse();
+       resolve();
+    });
+}
+
+const createApartment = () => {
+    const apartDesignation = document.querySelector("#apartDesignation").value;
+    if(apartDesignation !== "")
+    {
+        const selector = document.querySelector("#house-selector");
+        const houseId = selector.options[selector.selectedIndex].getAttribute("house-id");
+
+        const apartObj = {
+            houseId: houseId,
+            designation: apartDesignation
+        };
+        window.apartmentApi.createApartment(apartObj);
+
+        apartDesignation.value = "";
+        showApartmentsFromSelectedHouse();
+    }
+}
+document.querySelector("#apartSubmit").addEventListener("click", createApartment)
+
+const showApartmentsFromSelectedHouse = async () => {
+    const selector = document.querySelector("#house-selector");
+    const houseId = selector.options[selector.selectedIndex].getAttribute("house-id");
+
+    const apartments = await window.apartmentApi.showApartmentsFromHouse(houseId);
+    
+    console.log(apartments);
+
+    const div = document.querySelector("#apartments-for-house");
+    div.innerHTML = "";
+    div.innerHTML = `   <table id="apartmentTable">
+                            <thead>
+                                <th>Hausbezeichnung</th>
+                                <th>Wohnungesbezeichnung</th>
+                            </thead>
+                        </table>`;
+    const table = document.querySelector("#apartmentTable");
+    const tbody = document.createElement("tbody");
+
+    apartments.forEach(apartment => {
+        const {houseDes, apartDes, id} = apartment;
+        tbody.insertAdjacentHTML("beforeend",`  <tr>
+                                                    <td>${houseDes}</td>
+                                                    <td>${apartDes}</td>
+                                                </tr>`)
+    });
+    table.insertAdjacentElement("beforeend", tbody);
+}
+document.querySelector("#house-selector").addEventListener("change", showApartmentsFromSelectedHouse);
 
 // #################################################### NAMES TESTING AREA ############################################
 // const submitBtn = document.getElementById("nameBtn");

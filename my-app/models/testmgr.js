@@ -87,3 +87,27 @@ exports.allHouses = () => {
         resolve(houses);
     })
 }
+
+// Apartment
+exports.createApartment = (apartObj) => {
+    if(!apartObj) return;
+    const {houseId, designation} = apartObj;
+    const stmt = db.prepare("INSERT INTO apartments (designation, house_id) VALUES (?,?)");
+    const info = stmt.run(designation, houseId);
+}
+
+exports.showApartmentsFromHouse = (houseId) => {
+    if(!houseId) return;
+    return new Promise((resolve) => {
+        const stmt = db.prepare(`SELECT h.designation AS houseDes, 
+                                        a.designation AS apartDes,
+                                        a.id
+                                        FROM apartments a
+                                    INNER JOIN houses h
+                                    ON h.id = a.house_id
+                                    WHERE a.house_id = ?`);
+        const apartments = stmt.all(houseId);
+        if(apartments.length < 1) resolve({});
+        resolve(apartments);
+    });    
+}
