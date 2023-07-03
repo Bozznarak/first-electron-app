@@ -6,24 +6,33 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <p id="info">Info!</p>
 
-    <div class="test-div">
-      <span class="test-d-span"></span>
-    </div>
+    <nav>
+      <span class="click-start-section">Zur Hauptseite</span>
+      <span class="click-house-section">Ein Haus anlegen</span>
+    </nav>
+
+    <section class="starting-section">
+      <h1>TEST TEST TEST</h1>
+    </section>
+
+    <section class="create-house-section" style="display: none;">
+      <h2>Ein neues Haus anlegen</h2>
+
+      <input type="text" placeholder="Hausbezeichnung" name="house-designation" id="houseDesignation">
+      <input type="submit" value="" id="nameBtn">
+    </section>
+
 
 
     <!-- CREATE NAME -->
-    <input type="text" name="name" id="name">
-    <input type="submit" value="Namen Eintragen" id="nameBtn">
-
-
+    <!-- <div>
+      <input type="text" name="name" id="name">
+      <input type="submit" value="Namen Eintragen" id="nameBtn">
+    </div> -->
     <!-- SHOW NAMES + UPDATE OR DELETE NAMES -->
-    <div id="allNames">
-
-    </div>
+    <!-- <div id="allNames">
+    </div> -->
 
     <script src="./renderer.js"></script>
   </body>

@@ -17,10 +17,9 @@ contextBridge.exposeInMainWorld('versions', {
 
 contextBridge.exposeInMainWorld("api", {
   setTable: () => testMgr.setTable(),
-  conDd: () => testMgr.conDb(),
-  dummyData: () => testMgr.dummyData(),
-  getAllNames: () => testMgr.getAllNames(),
-  insertName: (name) => testMgr.insertName(name)
+  getAllNames: async () => await testMgr.getAllNames(),
+  insertName: (name) => testMgr.insertName(name),
+  deleteName: (id) => testMgr.deleteName(id)
 });
 
 

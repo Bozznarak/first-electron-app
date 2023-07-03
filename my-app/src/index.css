@@ -13,3 +13,21 @@ body {
   display: none;
   position: absolute;
 }
+
+.singleNameDiv
+{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 5px 0;
+}
+
+.singleNameDiv > span
+{
+  padding: 3px 5px;
+}
+
+.singleNameDiv > span:last-child
+{
+  cursor: pointer;
+}

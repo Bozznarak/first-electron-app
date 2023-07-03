@@ -1,18 +1,27 @@
-const information = document.getElementById('info');
-const div = document.querySelector(".test-div");
-const span = document.querySelector(".test-d-span");
+// #################################################### IMPORTANT GLOBALS #############################################
+const sections = document.querySelectorAll("body section");
 
+// #################################################### NAVIGATION ####################################################
+const hideAllElements = () => {
+    return new Promise((resolve, reject) => {
+        sections.forEach(element => element.style.display = "none")
+        resolve();
+    });
+}
 
-const text = `This app is using Chrome (v${versions.chrome()}), Node.js (v${versions.node()}), and Electron (v${versions.electron()})`;
+document.querySelector(".click-house-section").addEventListener("click", async (e) => {
+    await hideAllElements();
+    document.querySelector(".create-house-section").style.display = "block";
+});
 
-information.addEventListener("click", (event) => {
-    console.log(event)
-    div.innerHTML = text;
-    div.style.display = "block";
+document.querySelector(".click-start-section").addEventListener("click", async (e) => {
+    await hideAllElements();
+    document.querySelector(".starting-section").style.display = "block";
 })
 
+// #################################################### NAMES TESTING AREA ############################################
 const submitBtn = document.getElementById("nameBtn");
-const nameInput = document.getElementById("name")
+const nameInput = document.getElementById("name");
 submitBtn.addEventListener("click", () => {
     if(nameInput.value == "") return;
     window.api.insertName(nameInput.value);
@@ -20,27 +29,41 @@ submitBtn.addEventListener("click", () => {
     updateNamesDiv();
 });
 
-
 const updateNamesDiv = async () => {
     const namesDiv = document.getElementById("allNames");
+    namesDiv.innerHTML = "";
     try {
         const names = await window.api.getAllNames();
         if(names[0].length < 1){
             namesDiv.innerHTML = "Momentan sind keine Namen verfügbar";
             return;
         }
-        const htmlArr = names.map(item => {
-            return `<span>${item.name || "kein Name verfügbar"}</span>`
+        names.map(item => {
+            const div = document.createElement("div");
+            div.classList.add("singleNameDiv")
+            const nameSpan = document.createElement("span");
+            nameSpan.innerHTML = item.name || "kein Name verfügbar";
+            const delSpan = document.createElement("span");
+            delSpan.innerHTML = "Entfernen";
+            delSpan.addEventListener("click", (e) => {
+                console.log(item);
+                deleteName(item.id);
+            });
+            div.append(nameSpan, delSpan);
+            namesDiv.append(div);
         });
-
-        const htmlString = htmlArr.join("<br>");
-
-        namesDiv.innerHTML = htmlString;
-
     } catch (e) {
         console.log(e);
     }
+}
+const deleteName = (id) => {
+    window.api.deleteName(id);
+    updateNamesDiv();
+}
 
+// #################################################### HOUSE SECTION #################################################
+const showHouseSection = () => {
+    document.querySelector(".")
 }
 
 
